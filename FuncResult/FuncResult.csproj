@@ -4,4 +4,8 @@
     <TargetFrameworks>net4.5;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
 </Project>
