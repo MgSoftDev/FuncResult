@@ -154,7 +154,9 @@ namespace FuncResult
         private bool _NotCheckThrowIfError = false;
 
         private T _Val;
-        public T Val { get => _NotCheckThrowIfError  ? _Val: ThrowIfError()._Val; set => _Val = value; }
+        public  T Val { get =>  _Val; set => _Val = value; }
+
+        public T ValOrTrue=>_NotCheckThrowIfError ? _Val : ThrowIfError()._Val;
 
         public bool OkNotNull => Ok && Val != null;
 
