@@ -155,8 +155,7 @@ namespace FuncResult
 
         private T _Val;
         public  T Val { get =>  _Val; set => _Val = value; }
-
-        public T ValOrTrue=>_NotCheckThrowIfError ? _Val : ThrowIfError()._Val;
+       
 
         public bool OkNotNull => Ok && Val != null;
 
@@ -188,6 +187,7 @@ namespace FuncResult
         }
         public void Dispose()
         {
+            Val = default;
 
             GC.SuppressFinalize(this);
             GC.Collect(2, GCCollectionMode.Forced);

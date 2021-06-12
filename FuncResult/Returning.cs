@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FuncResult
 {
-    public class Returning
+    public class Returning : IDisposable
     {
         public enum TypeResult
         {
@@ -179,6 +179,18 @@ namespace FuncResult
         public static implicit operator Returning( UnfinishedInfo               value )=>new Returning( value );
         public static implicit operator Returning( ReturningException           value )=>value.Result;
         public static implicit operator Returning( ReturningUnfinishedException value )=>value.Result;
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose( )
+        {
+            Errors          = null;
+            ChildResult     = null;
+            UnfinishedItems = null;
+            LogException    = null;
+        }
 
         #endregion
     }
