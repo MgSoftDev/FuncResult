@@ -257,11 +257,25 @@ namespace FuncResult
 
         public static Returning FromErrorInfo( ErrorInfo errorInfo )=>errorInfo;
 
+        public static Returning Error(string errorMessage, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            return new ErrorInfo(errorMessage, tryException, memberName, filePath, lineNumber);
+        }
+        public static Returning Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            return new ErrorInfo(errorMessage, keysValues, tryException, memberName, filePath, lineNumber);
+        }
+
+        public static Returning Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, string errorCode = null)
+        {
+            return new UnfinishedInfo(title, mensaje, notifyType, errorCode);
+        }
+
         #endregion
 
         #region Operators Overloading
 
-        
+
         public static implicit operator Returning( ErrorInfo                    value )=>new Returning( value );
         public static implicit operator Returning( UnfinishedInfo               value )=>new Returning( value );
         public static implicit operator Returning( ReturningException           value )=>value.Result;
