@@ -52,19 +52,7 @@ namespace FuncResult
         public new static Returning<T> FromUnfinishedInfo( UnfinishedInfo unfinishedInfo )=> unfinishedInfo;
         public new static Returning<T> FromErrorInfo( ErrorInfo           errorInfo )     => errorInfo;
 
-        public new static Returning<T>  Error(string errorMessage, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
-        {
-            return new ErrorInfo( errorMessage, tryException, memberName, filePath, lineNumber );
-        }
-        public new static Returning<T> Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
-        {
-            return new ErrorInfo(errorMessage,keysValues, tryException, memberName, filePath, lineNumber);
-        }
-
-        public new static Returning<T> Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, string errorCode = null)
-        {
-            return new UnfinishedInfo(title, mensaje,notifyType,errorCode);
-        }
+       
 
         public static Returning<T> Try(Func<T> metodoFunc, string errorName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
