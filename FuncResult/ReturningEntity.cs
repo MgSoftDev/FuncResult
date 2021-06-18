@@ -41,16 +41,17 @@ namespace FuncResult
             AddError(error);
             ChildResult = childResults.ToList();
         }
-        
+
 
         #endregion
 
 
         #region Static 
 
-
-        public new static Returning<T> FromUnfinishedInfo( UnfinishedInfo unfinishedInfo ) => unfinishedInfo;
-        public new static Returning<T> FromErrorInfo( ErrorInfo errorInfo ) => errorInfo;
+        public new static     Returning<T>    Success                                            => new Returning<T>();
+        public new static Returning<T> FromUnfinishedInfo( UnfinishedInfo unfinishedInfo )=> unfinishedInfo;
+        public new static Returning<T> FromErrorInfo( ErrorInfo           errorInfo )     => errorInfo;
+       
         public static Returning<T> Try(Func<T> metodoFunc, string errorName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
@@ -136,6 +137,99 @@ namespace FuncResult
 
             });
         }
+
+
+        public static Returning<T> Try(Func<Returning<T>> metodoFunc, string errorName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            try
+            {
+                if (metodoFunc != null)
+                {
+                    return  metodoFunc.Invoke();
+                    
+                }
+                return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
+            }
+            catch (ReturningUnfinishedException e)
+            {
+                return new Returning<T>(e.Result);
+            }
+            catch (ReturningException e)
+            {
+                return new Returning<T>(e.Result);
+            }
+            catch (Exception e)
+            {
+                return new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+            }
+        }
+
+        public static Task<Returning<T>> TryTask(Func<Task<Returning< T>>> metodoFunc, string errorName = "", bool saveLog = false, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            return Task.Run(async () =>
+            {
+
+                try
+                {
+                    if( metodoFunc != null )
+                    {
+                        return await metodoFunc?.Invoke();
+                    }
+                    return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
+
+                }
+                catch (ReturningUnfinishedException e)
+                {
+                    return new Returning<T>(e.Result);
+                }
+                catch (ReturningException e)
+                {
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                }
+                catch (Exception e)
+                {
+                    var error = new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+
+                    return error;
+                }
+            });
+        }
+
+        public static Task<Returning<T>> TryTask(Func<Returning<T>> metodoFunc, string errorName = "", bool saveLog = false, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            return Task.Run(() =>
+            {
+
+                try
+                {
+                    if (metodoFunc != null)
+                    {
+                       return metodoFunc.Invoke();
+                       
+                    }
+                    return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
+                }
+                catch (ReturningUnfinishedException e)
+                {
+                    return new Returning<T>(e.Result);
+                }
+                catch (ReturningException e)
+                {
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                }
+                catch (Exception e)
+                {
+                    var error = new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    return error;
+                }
+
+            });
+        }
+
+
+
         #endregion
 
         #region Operators Overloading

@@ -84,6 +84,9 @@ namespace FuncResult
 
         #region Static Metodos
 
+        public static Returning Success=>new Returning();
+
+
         public static Returning Try( Action                  metodoAction,    string errorName = "", [CallerMemberName] string memberName = null,
                                      [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0 )
         {
@@ -167,6 +170,89 @@ namespace FuncResult
             } );
         }
 
+
+        public static Returning Try(Func<Returning>         metodoAction,    string                 errorName  = "", [CallerMemberName] string memberName = null,
+                                    [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        {
+            try
+            {
+                return metodoAction?.Invoke();
+                
+            }
+            catch (ReturningUnfinishedException e)
+            {
+                return e.Result;
+            }
+            catch (ReturningException e)
+            {
+                return e.Result;
+            }
+            catch (Exception e)
+            {
+                return new ErrorInfo(errorName, e, memberName, filePath, lineNumber);
+            }
+        }
+
+
+        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
+                                              [CallerLineNumber] int lineNumber = 0)
+        {
+            return Task.Run(async () =>
+            {
+                try
+                {
+                   return await metodoAction?.Invoke();
+                    
+                }
+                catch (ReturningUnfinishedException e)
+                {
+                    return e.Result;
+                }
+                catch (ReturningException e)
+                {
+                    return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
+                }
+                catch (Exception e)
+                {
+                    var error = new Returning(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+
+                    return error;
+                }
+            });
+        }
+
+        public static Task<Returning> TryTask(Func<Returning> metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
+                                              [CallerLineNumber] int lineNumber = 0)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                   return metodoAction?.Invoke();
+                    
+                }
+                catch (ReturningUnfinishedException e)
+                {
+                    return e.Result;
+                }
+                catch (ReturningException e)
+                {
+                    return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
+                }
+                catch (Exception e)
+                {
+                    var error = new Returning(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+
+                    return error;
+                }
+            });
+        }
+
+
         public static Returning FromUnfinishedInfo( UnfinishedInfo unfinishedInfo )=>unfinishedInfo;
 
         public static Returning FromErrorInfo( ErrorInfo errorInfo )=>errorInfo;
@@ -175,6 +261,7 @@ namespace FuncResult
 
         #region Operators Overloading
 
+        
         public static implicit operator Returning( ErrorInfo                    value )=>new Returning( value );
         public static implicit operator Returning( UnfinishedInfo               value )=>new Returning( value );
         public static implicit operator Returning( ReturningException           value )=>value.Result;

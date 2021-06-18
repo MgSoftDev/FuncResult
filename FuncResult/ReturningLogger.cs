@@ -9,9 +9,9 @@ namespace FuncResult
 
         public static Returning SaveLog(this Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
         {
-            if (returning.IsLogStored || LoggerService ==  null) return returning;
+            if (returning == null || returning.IsLogStored || LoggerService ==  null) return returning;
 
-
+            
             logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
             if (LoggerService.SaveLog( returning, logLevel, logName ))
                 returning.IsLogStored = true;
@@ -21,7 +21,7 @@ namespace FuncResult
 
         public static Returning<T> SaveLog<T>(this Returning<T> returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
         {
-            if (returning.IsLogStored || LoggerService == null) return returning;
+            if (returning == null || returning.IsLogStored || LoggerService == null) return returning;
             logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
             ((Returning)returning).SaveLog(logLevel, logName);
 
@@ -30,7 +30,7 @@ namespace FuncResult
 
         public static ErrorInfo SaveLog(this ErrorInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
         {
-            if ( LoggerService == null) return error;
+            if (error == null || LoggerService == null) return error;
             logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
             LoggerService.SaveLog(error, logLevel, logName);
 
