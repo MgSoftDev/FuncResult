@@ -266,9 +266,9 @@ namespace FuncResult
             return new ErrorInfo(errorMessage, keysValues, tryException, memberName, filePath, lineNumber);
         }
 
-        public static UnfinishedInfo Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, string errorCode = null)
+        public static UnfinishedInfo Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,string errorCode = null, params object[] stringsArgs)
         {
-            return new UnfinishedInfo(title, mensaje, notifyType, errorCode);
+            return new UnfinishedInfo(title, mensaje, notifyType,useLocalization, errorCode, stringsArgs);
         }
 
         #endregion
