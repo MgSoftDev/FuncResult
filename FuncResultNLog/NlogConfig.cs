@@ -34,6 +34,7 @@ namespace FuncResultNLog
             _Json.Attributes.Add(new JsonAttribute("Message", "${message}"));
 
             // Custom Properties
+            
             _Json.Attributes.Add(new JsonAttribute("AssemblyName", "${event-properties:item=AssemblyName}", true));
             _Json.Attributes.Add(new JsonAttribute("MemberName", "${event-properties:item=MemberName}", true));
             _Json.Attributes.Add(new JsonAttribute("FilePath", "${event-context:item=FilePath}", true));

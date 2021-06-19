@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using FuncResult;
 using NLog;
 using NLog.LayoutRenderers;
@@ -81,6 +82,14 @@ namespace FuncResultNLog
             return true;
         }
 
-        
+        public Task<bool> SaveLogAsync( Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null )
+        {
+            return Task.Run( ( )=>SaveLog( returning, logLevel, logName ) );
+        }
+
+        public Task<bool> SaveLogAsync( ErrorInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null )
+        {
+            return Task.Run(() => SaveLog(error, logLevel, logName));
+        }
     }
 }
