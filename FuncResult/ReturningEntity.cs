@@ -258,7 +258,7 @@ namespace FuncResult
         #region Methods
 
         /// <exception cref="ReturningException">Condition.</exception>
-        public Returning<T> ThrowIfError()
+        public new Returning<T> Throw()
         {
             if( ResultType == TypeResult.Error ) throw new ReturningException( this );
 
@@ -270,7 +270,7 @@ namespace FuncResult
 
         public  T ValThrowIfIsNull()
         {
-            if (!ThrowIfError().OkNotNull)
+            if (!Throw().OkNotNull)
                 throw new Exception("El Objeto no puede ser Null, Property Val (ValNull)");
             return Val;
         }

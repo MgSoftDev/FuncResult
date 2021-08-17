@@ -10,6 +10,13 @@ namespace FuncResult
                 action(returning.Val);
         }
 
+
+        public static string Format( this string val, params object[] args )
+        {
+            if( val == null  ) return "";
+
+            return args == null ? val : string.Format( val, args );
+        }
         
     }
 }
