@@ -13,7 +13,7 @@ namespace FuncResult
 
         Task<bool> SaveLogAsync(ErrorInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null);
 
-        bool       SaveLog(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null);
-        Task<bool> SaveLogAsync(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null);
+        bool       SaveLog(UnfinishedInfo error, string logName = null);
+        Task<bool> SaveLogAsync(UnfinishedInfo error, string logName = null);
     }
 }

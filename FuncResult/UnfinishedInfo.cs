@@ -7,10 +7,10 @@ namespace FuncResult
     {
         public enum NotifyType
         {
-            Information,
-            Success,
-            Warning,
-            Error
+            Information=2,
+            Success=2,
+            Warning=3,
+            Error=4
         }
         public string   ErrorCode       { get; set; }
         public string   Title           { get; set; }

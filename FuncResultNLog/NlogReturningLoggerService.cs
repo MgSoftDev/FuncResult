@@ -92,7 +92,7 @@ namespace FuncResultNLog
             return Task.Run(() => SaveLog(error, logLevel, logName));
         }
 
-        public bool SaveLog(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        public bool SaveLog(UnfinishedInfo error,  string logName = null)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace FuncResultNLog
                 logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
                 logName = logName?.Replace('.', ' ');
 
-                var level = LogLevel.FromOrdinal((int)logLevel);
+                var level = LogLevel.FromOrdinal((int)error.Type);
 
                 var logger = LogManager.GetLogger("Returning");
 
@@ -116,9 +116,9 @@ namespace FuncResultNLog
             return true;
         }
 
-        public Task<bool> SaveLogAsync(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        public Task<bool> SaveLogAsync(UnfinishedInfo error,  string logName = null)
         {
-            return Task.Run(() => SaveLog(error, logLevel, logName));
+            return Task.Run(() => SaveLog(error,  logName));
         }
     }
 }
