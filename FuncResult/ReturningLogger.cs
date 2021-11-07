@@ -69,5 +69,29 @@ namespace FuncResult
             return error;
         }
 
+
+        public static UnfinishedInfo SaveLog(this UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        {
+            if (error == null || LoggerService == null) return error;
+            logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+            LoggerService.SaveLog(error, logLevel, logName);
+
+            return error;
+        }
+
+        public static async Task<UnfinishedInfo> SaveLogAsync(this UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        {
+            if (error == null || LoggerService == null) return error;
+            logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+            await LoggerService.SaveLogAsync(error, logLevel, logName);
+
+            return error;
+        }
+
+
+
+
+
+
     }
 }

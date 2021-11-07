@@ -91,5 +91,34 @@ namespace FuncResultNLog
         {
             return Task.Run(() => SaveLog(error, logLevel, logName));
         }
+
+        public bool SaveLog(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        {
+            try
+            {
+
+                logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+                logName = logName?.Replace('.', ' ');
+
+                var level = LogLevel.FromOrdinal((int)logLevel);
+
+                var logger = LogManager.GetLogger("Returning");
+
+                var theEvent = new LogEventInfo(level, logName, null, error.Title + "  "+ error.Mensaje, null, null);
+                theEvent.Properties["AssemblyName"] = logName;
+                logger.Log(theEvent);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public Task<bool> SaveLogAsync(UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        {
+            return Task.Run(() => SaveLog(error, logLevel, logName));
+        }
     }
 }
