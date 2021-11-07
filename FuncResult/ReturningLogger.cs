@@ -70,20 +70,20 @@ namespace FuncResult
         }
 
 
-        public static UnfinishedInfo SaveLog(this UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        public static UnfinishedInfo SaveLog(this UnfinishedInfo error, string logName = null)
         {
             if (error == null || LoggerService == null) return error;
             logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-            LoggerService.SaveLog(error, logLevel, logName);
+            LoggerService.SaveLog(error, logName);
 
             return error;
         }
 
-        public static async Task<UnfinishedInfo> SaveLogAsync(this UnfinishedInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+        public static async Task<UnfinishedInfo> SaveLogAsync(this UnfinishedInfo error,  string logName = null)
         {
             if (error == null || LoggerService == null) return error;
             logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-            await LoggerService.SaveLogAsync(error, logLevel, logName);
+            await LoggerService.SaveLogAsync(error, logName);
 
             return error;
         }
