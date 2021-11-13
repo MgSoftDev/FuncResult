@@ -110,7 +110,7 @@ namespace FuncResult
             }
         }
 
-        public static Task<Returning> TryTask( Func<Task> metodoAction, string errorName = "Unhandled error", bool saveLog = false,  string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+        public static Task<Returning> TryTask( Func<Task> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                                [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                                [CallerLineNumber] int lineNumber = 0 )
         {
@@ -140,7 +140,7 @@ namespace FuncResult
             } );
         }
 
-        public static Task<Returning> TryTask( Action metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+        public static Task<Returning> TryTask( Action metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                                [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                                [CallerLineNumber] int lineNumber = 0 )
         {
@@ -194,7 +194,7 @@ namespace FuncResult
         }
 
 
-        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                               [CallerLineNumber] int lineNumber = 0)
         {
@@ -223,7 +223,7 @@ namespace FuncResult
             });
         }
 
-        public static Task<Returning> TryTask(Func<Returning> metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+        public static Task<Returning> TryTask(Func<Returning> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                               [CallerLineNumber] int lineNumber = 0)
         {
