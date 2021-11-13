@@ -253,9 +253,9 @@ namespace FuncResult
         }
 
 
-        public static Returning FromUnfinishedInfo( UnfinishedInfo unfinishedInfo )=>unfinishedInfo;
+        public static Returning Error( UnfinishedInfo unfinishedInfo )=>unfinishedInfo;
 
-        public static Returning FromErrorInfo( ErrorInfo errorInfo )=>errorInfo;
+        public static Returning Error( ErrorInfo errorInfo )=>errorInfo;
 
         public static ErrorInfo Error(string errorMessage, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {

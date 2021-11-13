@@ -48,9 +48,9 @@ namespace FuncResult
 
         #region Static 
 
-        public new static     Returning<T>    Success                                            => new Returning<T>();
-        public new static Returning<T> FromUnfinishedInfo( UnfinishedInfo unfinishedInfo )=> unfinishedInfo;
-        public new static Returning<T> FromErrorInfo( ErrorInfo           errorInfo )     => errorInfo;
+        public new static Returning<T> Success                               => new Returning<T>();
+        public new static Returning<T> Error( UnfinishedInfo unfinishedInfo )=> unfinishedInfo;
+        public new static Returning<T> Error( ErrorInfo      errorInfo )     => errorInfo;
 
        
 
