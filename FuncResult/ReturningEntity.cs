@@ -54,16 +54,13 @@ namespace FuncResult
 
        
 
-        public static Returning<T> Try(Func<T> metodoFunc, string errorName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Returning<T> Try(Func<T> metodoFunc, string errorName = "Unhandled error", string errorCode = ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
             {
-                if (metodoFunc != null)
-                {
                     var val = metodoFunc.Invoke();
                     return new Returning<T>(val);
-                }
-                return new Returning<T>(new ErrorInfo(errorName,null, memberName, filePath, lineNumber));
+               
             }
             catch (ReturningUnfinishedException e)
             {
@@ -75,11 +72,11 @@ namespace FuncResult
             }
             catch (Exception e)
             {
-                return new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                return new Returning<T>(new ErrorInfo(errorName, e,errorCode, memberName, filePath, lineNumber));
             }
         }
 
-        public static  Task<Returning<T>> TryTask(Func<Task<T>> metodoFunc, string errorName = "", bool saveLog= false,string logName="", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static  Task<Returning<T>> TryTask(Func<Task<T>> metodoFunc, string errorName = "Unhandled error", bool saveLog= false, string errorCode = ErrorInfo.UnhandledError, string logName="", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return Task.Run( async () =>
             {
@@ -88,7 +85,7 @@ namespace FuncResult
                 {
                     var invoke = await metodoFunc?.Invoke();
 
-                    return invoke != null ? new Returning<T>(  invoke) : new Returning<T>( new ErrorInfo( errorName, null, memberName, filePath, lineNumber ) );
+                    return  new Returning<T>(  invoke);
                 }
                 catch( ReturningUnfinishedException e )
                 {
@@ -100,7 +97,7 @@ namespace FuncResult
                 }
                 catch( Exception e )
                 {
-                    var error = new Returning<T>( new ErrorInfo( errorName, e, memberName, filePath, lineNumber ) );
+                    var error = new Returning<T>( new ErrorInfo( errorName, e,errorCode,  memberName, filePath, lineNumber ) );
                     if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
 
                     return error;
@@ -108,19 +105,17 @@ namespace FuncResult
             } );
         }
 
-        public static Task<Returning<T>> TryTask(Func<T> metodoFunc, string errorName = "", bool saveLog = false, string logName="", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Task<Returning<T>> TryTask(Func<T> metodoFunc, string errorName = "Unhandled error", bool saveLog = false, string errorCode = ErrorInfo.UnhandledError, string logName="", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return Task.Run(() =>
             {
 
                 try
                 {
-                    if (metodoFunc != null)
-                    {
+                    
                         var val = metodoFunc.Invoke();
                         return new Returning<T>(val);
-                    }
-                    return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
+                    
                 }
                 catch (ReturningUnfinishedException e)
                 {
@@ -132,7 +127,7 @@ namespace FuncResult
                 }
                 catch (Exception e)
                 {
-                    var error= new Returning<T>(new ErrorInfo(errorName, e,memberName, filePath, lineNumber));
+                    var error= new Returning<T>(new ErrorInfo(errorName, e,errorCode,memberName, filePath, lineNumber));
                     if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
                     return error;
                 }
@@ -141,16 +136,13 @@ namespace FuncResult
         }
 
 
-        public static Returning<T> Try(Func<Returning<T>> metodoFunc, string errorName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Returning<T> Try(Func<Returning<T>> metodoFunc, string errorName = "Unhandled error", string errorCode = ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
             {
-                if (metodoFunc != null)
-                {
-                    return  metodoFunc.Invoke();
+                return  metodoFunc.Invoke();
                     
-                }
-                return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
+                
             }
             catch (ReturningUnfinishedException e)
             {
@@ -162,23 +154,19 @@ namespace FuncResult
             }
             catch (Exception e)
             {
-                return new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                return new Returning<T>(new ErrorInfo(errorName, e,errorCode, memberName, filePath, lineNumber));
             }
         }
 
-        public static Task<Returning<T>> TryTask(Func<Task<Returning< T>>> metodoFunc, string errorName = "", bool saveLog = false, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Task<Returning<T>> TryTask(Func<Task<Returning< T>>> metodoFunc, string errorName = "Unhandled error", bool saveLog = false, string errorCode = ErrorInfo.UnhandledError, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return Task.Run(async () =>
             {
 
                 try
                 {
-                    if( metodoFunc != null )
-                    {
-                        return await metodoFunc?.Invoke();
-                    }
-                    return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
-
+                    return await metodoFunc?.Invoke();
+                   
                 }
                 catch (ReturningUnfinishedException e)
                 {
@@ -190,7 +178,7 @@ namespace FuncResult
                 }
                 catch (Exception e)
                 {
-                    var error = new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    var error = new Returning<T>(new ErrorInfo(errorName, e,errorCode, memberName, filePath, lineNumber));
                     if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
@@ -198,19 +186,15 @@ namespace FuncResult
             });
         }
 
-        public static Task<Returning<T>> TryTask(Func<Returning<T>> metodoFunc, string errorName = "", bool saveLog = false, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Task<Returning<T>> TryTask(Func<Returning<T>> metodoFunc, string errorName = "Unhandled error", bool saveLog = false, string errorCode = ErrorInfo.UnhandledError, string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return Task.Run(() =>
             {
 
                 try
                 {
-                    if (metodoFunc != null)
-                    {
-                       return metodoFunc.Invoke();
+                    return metodoFunc.Invoke();
                        
-                    }
-                    return new Returning<T>(new ErrorInfo(errorName, null, memberName, filePath, lineNumber));
                 }
                 catch (ReturningUnfinishedException e)
                 {
@@ -222,7 +206,7 @@ namespace FuncResult
                 }
                 catch (Exception e)
                 {
-                    var error = new Returning<T>(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    var error = new Returning<T>(new ErrorInfo(errorName, e,errorCode, memberName, filePath, lineNumber));
                     if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
                     return error;
                 }

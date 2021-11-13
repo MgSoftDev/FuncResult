@@ -87,7 +87,7 @@ namespace FuncResult
         public static Returning Success=>new Returning();
 
 
-        public static Returning Try( Action                  metodoAction,    string errorName = "", [CallerMemberName] string memberName = null,
+        public static Returning Try( Action                  metodoAction,    string errorName = "Unhandled error", string errorCode= ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null,
                                      [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0 )
         {
             try
@@ -106,11 +106,11 @@ namespace FuncResult
             }
             catch ( Exception e )
             {
-                return new ErrorInfo( errorName, e, memberName, filePath, lineNumber );
+                return new ErrorInfo( errorName, e,errorCode, memberName, filePath, lineNumber );
             }
         }
 
-        public static Task<Returning> TryTask( Func<Task> metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+        public static Task<Returning> TryTask( Func<Task> metodoAction, string errorName = "Unhandled error", bool saveLog = false,  string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                                [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                                [CallerLineNumber] int lineNumber = 0 )
         {
@@ -132,7 +132,7 @@ namespace FuncResult
                 }
                 catch ( Exception e )
                 {
-                    var error = new Returning( new ErrorInfo( errorName, e, memberName, filePath, lineNumber ) );
+                    var error = new Returning( new ErrorInfo( errorName, e, errorCode, memberName, filePath, lineNumber ) );
                     if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
 
                     return error;
@@ -140,7 +140,7 @@ namespace FuncResult
             } );
         }
 
-        public static Task<Returning> TryTask( Action metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+        public static Task<Returning> TryTask( Action metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                                [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                                [CallerLineNumber] int lineNumber = 0 )
         {
@@ -162,7 +162,7 @@ namespace FuncResult
                 }
                 catch ( Exception e )
                 {
-                    var error = new Returning( new ErrorInfo( errorName, e, memberName, filePath, lineNumber ) );
+                    var error = new Returning( new ErrorInfo( errorName, e,errorCode, memberName, filePath, lineNumber ) );
                     if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
 
                     return error;
@@ -171,7 +171,7 @@ namespace FuncResult
         }
 
 
-        public static Returning Try(Func<Returning>         metodoAction,    string                 errorName  = "", [CallerMemberName] string memberName = null,
+        public static Returning Try(Func<Returning>         metodoAction,    string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", [CallerMemberName] string memberName = null,
                                     [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
@@ -189,12 +189,12 @@ namespace FuncResult
             }
             catch (Exception e)
             {
-                return new ErrorInfo(errorName, e, memberName, filePath, lineNumber);
+                return new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber);
             }
         }
 
 
-        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                               [CallerLineNumber] int lineNumber = 0)
         {
@@ -215,7 +215,7 @@ namespace FuncResult
                 }
                 catch (Exception e)
                 {
-                    var error = new Returning(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
                     if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
@@ -223,7 +223,7 @@ namespace FuncResult
             });
         }
 
-        public static Task<Returning> TryTask(Func<Returning> metodoAction, string errorName = "", bool saveLog = false, string logName = "",
+        public static Task<Returning> TryTask(Func<Returning> metodoAction, string errorName = "Unhandled error", bool saveLog = false, string errorCode = "ErrorInfo.UnhandledError", string logName = "",
                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
                                               [CallerLineNumber] int lineNumber = 0)
         {
@@ -244,7 +244,7 @@ namespace FuncResult
                 }
                 catch (Exception e)
                 {
-                    var error = new Returning(new ErrorInfo(errorName, e, memberName, filePath, lineNumber));
+                    var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
                     if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
@@ -257,13 +257,13 @@ namespace FuncResult
 
         public static Returning FromErrorInfo( ErrorInfo errorInfo )=>errorInfo;
 
-        public static ErrorInfo Error(string errorMessage, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static ErrorInfo Error(string errorMessage, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return new ErrorInfo(errorMessage, tryException, memberName, filePath, lineNumber);
+            return new ErrorInfo(errorMessage, tryException, errorCode, memberName, filePath, lineNumber);
         }
-        public static ErrorInfo Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static ErrorInfo Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, string errorCode = "",[CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return new ErrorInfo(errorMessage, keysValues, tryException, memberName, filePath, lineNumber);
+            return new ErrorInfo(errorMessage, keysValues, tryException, errorCode, memberName, filePath, lineNumber);
         }
 
         public static UnfinishedInfo Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,string errorCode = null, params object[] stringsArgs)
