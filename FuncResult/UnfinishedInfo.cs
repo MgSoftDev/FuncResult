@@ -16,13 +16,13 @@ namespace FuncResult
         public string                        Title           { get; set; }
         public string                        Mensaje         { get; set; }
         public bool                          UseLocalization { get; set; }
-        public (string Name, string Value)[] NameValues      { get; set; }
+        public (string Name, object Value)[] NameValues      { get; set; }
 
         public NotifyType Type { get; set; }
         public UnfinishedInfo() { }
 
         public UnfinishedInfo(string                              title, string mensaje = null, NotifyType notifyType = NotifyType.Information, bool useLocalization = false, string errorCode = null,
-                              params (string Key, string Value)[] nameValues)
+                              params (string Key, object Value)[] nameValues)
         {
             Title           = title;
             Mensaje         = mensaje;

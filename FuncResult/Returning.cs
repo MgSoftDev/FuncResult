@@ -258,7 +258,7 @@ namespace FuncResult
             return new ErrorInfo(errorMessage, tryException, errorCode, memberName, filePath, lineNumber);
         }
 
-        public static Returning Error(string errorMessage, (string Key, string Value)[] nameValues, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null,
+        public static Returning Error(string errorMessage, (string Key, object Value)[] nameValues, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null,
                                       [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return new ErrorInfo(errorMessage, nameValues, tryException, errorCode, memberName, filePath, lineNumber);
@@ -266,7 +266,7 @@ namespace FuncResult
 
 
         public static Returning Unfinished(string title,            string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,
-                                           string errorCode = null, params (string Key, string Value)[] nameValues)
+                                           string errorCode = null, params (string Key, object Value)[] nameValues)
         {
             return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, nameValues);
         }
