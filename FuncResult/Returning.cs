@@ -4,6 +4,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+// ReSharper disable MethodHasAsyncOverload
+// ReSharper disable ExplicitCallerInfoArgument
+
 namespace FuncResult
 {
     public class Returning : IDisposable
@@ -17,14 +20,14 @@ namespace FuncResult
 
         #region Constructores
 
-        public Returning( ) { }
-        public Returning( UnfinishedInfo unfinishedInfo ) { AddUnfinishedItem( unfinishedInfo ); }
-        public Returning( ErrorInfo      error ) { AddError( error ); }
+        public Returning() { }
+        public Returning(UnfinishedInfo unfinishedInfo) { AddUnfinishedItem(unfinishedInfo); }
+        public Returning(ErrorInfo      error) { AddError(error); }
 
-        public Returning( ErrorInfo error, IEnumerable<Returning> childResults )
+        public Returning(ErrorInfo error, IEnumerable<Returning> childResults)
         {
-            AddError( error );
-            ChildResult              = childResults.ToList();
+            AddError(error);
+            ChildResult = childResults.ToList();
         }
 
         #endregion
@@ -32,50 +35,50 @@ namespace FuncResult
         #region Property
 
         public List<UnfinishedInfo> UnfinishedItems { get; set; } = new List<UnfinishedInfo>();
-        public List<ErrorInfo> Errors { get; set; } = new List<ErrorInfo>();
-        public List<Returning> ChildResult { get; set; } = new List<Returning>();
-        public bool       IsLogStored { get; set; }
-        public Exception  LogException { get; set; }
-        public bool       Ok=>( Errors == null || Errors.Count == 0 ) && ( UnfinishedItems == null || UnfinishedItems.Count == 0 );
-        public TypeResult ResultType=>Ok ? TypeResult.Success : ( ( Errors != null && Errors.Count > 0 ) ? TypeResult.Error : TypeResult.Unfinished );
+        public List<ErrorInfo>      Errors          { get; set; } = new List<ErrorInfo>();
+        public List<Returning>      ChildResult     { get; set; } = new List<Returning>();
+        public bool                 IsLogStored     { get; set; }
+        public Exception            LogException    { get; set; }
+        public bool                 Ok              =>( Errors == null || Errors.Count == 0 ) && ( UnfinishedItems == null || UnfinishedItems.Count == 0 );
+        public TypeResult           ResultType      =>Ok ? TypeResult.Success : ( ( Errors != null && Errors.Count > 0 ) ? TypeResult.Error : TypeResult.Unfinished );
 
         #endregion
 
         #region Methods
 
         /// <exception cref="ReturningException">Condition.</exception>
-        public Returning Throw( )
+        public Returning Throw()
         {
-            if( ResultType == TypeResult.Error ) throw new ReturningException( this );
-            if( ResultType == TypeResult.Unfinished ) throw new ReturningUnfinishedException( this );
+            if( ResultType == TypeResult.Error ) throw new ReturningException(this);
+            if( ResultType == TypeResult.Unfinished ) throw new ReturningUnfinishedException(this);
 
             return this;
         }
 
-        public Returning AddError( ErrorInfo error )
+        public Returning AddError(ErrorInfo error)
         {
-            Errors.Add( error );
+            Errors.Add(error);
 
             return this;
         }
 
-        public Returning AddError( IEnumerable<ErrorInfo> errorList )
+        public Returning AddError(IEnumerable<ErrorInfo> errorList)
         {
-            Errors.AddRange( errorList?.ToList() ?? new List<ErrorInfo>() );
+            Errors.AddRange(errorList?.ToList() ?? new List<ErrorInfo>());
 
             return this;
         }
 
-        public Returning AddUnfinishedItem( UnfinishedInfo unfinishedInfo )
+        public Returning AddUnfinishedItem(UnfinishedInfo unfinishedInfo)
         {
-            UnfinishedItems.Add( unfinishedInfo );
+            UnfinishedItems.Add(unfinishedInfo);
 
             return this;
         }
 
-        public Returning AddUnfinishedItem( IEnumerable<UnfinishedInfo> items )
+        public Returning AddUnfinishedItem(IEnumerable<UnfinishedInfo> items)
         {
-            UnfinishedItems.AddRange( items?.ToList() ?? new List<UnfinishedInfo>() );
+            UnfinishedItems.AddRange(items?.ToList() ?? new List<UnfinishedInfo>());
 
             return this;
         }
@@ -87,12 +90,12 @@ namespace FuncResult
         public static Returning Success=>new Returning();
 
 
-        public static Returning Try( Action                  metodoAction,    string errorName = "Unhandled error", string errorCode= ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null,
-                                     [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0 )
+        public static Returning Try(Action methodAction, string errorName = "Unhandled error", string errorCode = ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null,
+                                    [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
             {
-                metodoAction?.Invoke();
+                methodAction.Invoke();
 
                 return new Returning();
             }
@@ -106,19 +109,18 @@ namespace FuncResult
             }
             catch ( Exception e )
             {
-                return new ErrorInfo( errorName, e,errorCode, memberName, filePath, lineNumber );
+                return new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber);
             }
         }
 
-        public static Task<Returning> TryTask( Func<Task> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
-                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
-                                               [CallerLineNumber] int lineNumber = 0 )
+        public static Task<Returning> TryTask(Func<Task> methodAction, bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return Task.Run( async ( )=>
+            return Task.Run(async ()=>
             {
                 try
                 {
-                    await metodoAction?.Invoke();
+                    await methodAction.Invoke();
 
                     return new Returning();
                 }
@@ -128,27 +130,26 @@ namespace FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? e.Result.SaveLog( ReturningEnums.LogLevel.Error, logName ) : e.Result;
+                    return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
                 }
                 catch ( Exception e )
                 {
-                    var error = new Returning( new ErrorInfo( errorName, e, errorCode, memberName, filePath, lineNumber ) );
-                    if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
+                    var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
                 }
-            } );
+            });
         }
 
-        public static Task<Returning> TryTask( Action metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
-                                               [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
-                                               [CallerLineNumber] int lineNumber = 0 )
+        public static Task<Returning> TryTask(Action methodAction, bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
+                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return Task.Run( ( )=>
+            return Task.Run(()=>
             {
                 try
                 {
-                    metodoAction?.Invoke();
+                    methodAction?.Invoke();
 
                     return new Returning();
                 }
@@ -158,94 +159,89 @@ namespace FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? e.Result.SaveLog( ReturningEnums.LogLevel.Error, logName ) : e.Result;
+                    return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
                 }
                 catch ( Exception e )
                 {
-                    var error = new Returning( new ErrorInfo( errorName, e,errorCode, memberName, filePath, lineNumber ) );
-                    if( saveLog ) error.SaveLog( ReturningEnums.LogLevel.Error, logName );
+                    var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
                 }
-            } );
+            });
         }
 
 
-        public static Returning Try(Func<Returning>         metodoAction,    string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", [CallerMemberName] string memberName = null,
+        public static Returning Try(Func<Returning> methodAction, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", [CallerMemberName] string memberName = null,
                                     [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             try
             {
-                return metodoAction?.Invoke();
-                
+                return methodAction.Invoke();
             }
-            catch (ReturningUnfinishedException e)
+            catch ( ReturningUnfinishedException e )
             {
                 return e.Result;
             }
-            catch (ReturningException e)
+            catch ( ReturningException e )
             {
                 return e.Result;
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 return new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber);
             }
         }
 
 
-        public static Task<Returning> TryTask(Func<Task<Returning>> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
-                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
-                                              [CallerLineNumber] int lineNumber = 0)
+        public static Task<Returning> TryTask(Func<Task<Returning>> methodAction, bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError",
+                                              string logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return Task.Run(async () =>
+            return Task.Run(async ()=>
             {
                 try
                 {
-                   return await metodoAction?.Invoke();
-                    
+                   return await methodAction.Invoke();
                 }
-                catch (ReturningUnfinishedException e)
+                catch ( ReturningUnfinishedException e )
                 {
                     return e.Result;
                 }
-                catch (ReturningException e)
+                catch ( ReturningException e )
                 {
                     return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
                 }
-                catch (Exception e)
+                catch ( Exception e )
                 {
                     var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
                 }
             });
         }
 
-        public static Task<Returning> TryTask(Func<Returning> metodoAction,  bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError", string logName = "",
-                                              [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
-                                              [CallerLineNumber] int lineNumber = 0)
+        public static Task<Returning> TryTask(Func<Returning> methodAction, bool saveLog = false, string errorName = "Unhandled error", string errorCode = "ErrorInfo.UnhandledError",
+                                              string          logName = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return Task.Run(() =>
+            return Task.Run(()=>
             {
                 try
                 {
-                   return metodoAction?.Invoke();
-                    
+                    return methodAction.Invoke();
                 }
-                catch (ReturningUnfinishedException e)
+                catch ( ReturningUnfinishedException e )
                 {
                     return e.Result;
                 }
-                catch (ReturningException e)
+                catch ( ReturningException e )
                 {
                     return saveLog ? e.Result.SaveLog(ReturningEnums.LogLevel.Error, logName) : e.Result;
                 }
-                catch (Exception e)
+                catch ( Exception e )
                 {
                     var error = new Returning(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if (saveLog) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
 
                     return error;
                 }
@@ -253,39 +249,39 @@ namespace FuncResult
         }
 
 
-        public static Returning Error( UnfinishedInfo unfinishedInfo )=>unfinishedInfo;
-
-        public static Returning Error( ErrorInfo errorInfo )=>errorInfo;
-
-        public static ErrorInfo Error(string errorMessage, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public static Returning Error(string errorMessage, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null,
+                                      [CallerLineNumber] int lineNumber = 0)
         {
             return new ErrorInfo(errorMessage, tryException, errorCode, memberName, filePath, lineNumber);
         }
-        public static ErrorInfo Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, string errorCode = "",[CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+
+        public static Returning Error(string errorMessage, (string Key, string Value)[] keysValues, Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null,
+                                      [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             return new ErrorInfo(errorMessage, keysValues, tryException, errorCode, memberName, filePath, lineNumber);
         }
 
-        public static UnfinishedInfo Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,string errorCode = null, params object[] stringsArgs)
+
+        public static Returning Unfinished(string title,            string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,
+                                           string errorCode = null, params object[] stringsArgs)
         {
-            return new UnfinishedInfo(title, mensaje, notifyType,useLocalization, errorCode, stringsArgs);
+            return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, stringsArgs);
         }
 
         #endregion
 
         #region Operators Overloading
 
-
-        public static implicit operator Returning( ErrorInfo                    value )=>new Returning( value );
-        public static implicit operator Returning( UnfinishedInfo               value )=>new Returning( value );
-        public static implicit operator Returning( ReturningException           value )=>value.Result;
-        public static implicit operator Returning( ReturningUnfinishedException value )=>value.Result;
+        public static implicit operator Returning(ErrorInfo                    value)=>new Returning(value);
+        public static implicit operator Returning(UnfinishedInfo               value)=>new Returning(value);
+        public static implicit operator Returning(ReturningException           value)=>value.Result;
+        public static implicit operator Returning(ReturningUnfinishedException value)=>value.Result;
 
         #endregion
 
         #region IDisposable
 
-        public void Dispose( )
+        public void Dispose()
         {
             Errors          = null;
             ChildResult     = null;
