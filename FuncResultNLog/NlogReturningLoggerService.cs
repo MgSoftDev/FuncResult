@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using FuncResult;
+using FuncResult.Logger;
 using NLog;
 using NLog.LayoutRenderers;
 
@@ -92,7 +93,7 @@ namespace FuncResultNLog
             return Task.Run(() => SaveLog(error, logLevel, logName));
         }
 
-        public bool SaveLog(UnfinishedInfo error,  string logName = null)
+        public bool SaveLog(UnfinishedInfo unfinished,  string logName = null)
         {
             try
             {
@@ -100,11 +101,11 @@ namespace FuncResultNLog
                 logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
                 logName = logName?.Replace('.', ' ');
 
-                var level = LogLevel.FromOrdinal((int)error.Type);
+                var level = LogLevel.FromOrdinal((int)unfinished.Type);
 
                 var logger = LogManager.GetLogger("Returning");
 
-                var theEvent = new LogEventInfo(level, logName, null, error.Title + "  "+ error.Mensaje, null, null);
+                var theEvent = new LogEventInfo(level, logName, null, unfinished.Title + "  "+ unfinished.Mensaje, null, null);
                 theEvent.Properties["AssemblyName"] = logName;
                 logger.Log(theEvent);
             }
@@ -116,9 +117,9 @@ namespace FuncResultNLog
             return true;
         }
 
-        public Task<bool> SaveLogAsync(UnfinishedInfo error,  string logName = null)
+        public Task<bool> SaveLogAsync(UnfinishedInfo unfinished,  string logName = null)
         {
-            return Task.Run(() => SaveLog(error,  logName));
+            return Task.Run(() => SaveLog(unfinished,  logName));
         }
     }
 }

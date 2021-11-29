@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace FuncResult
+namespace FuncResult.Exceptions
 {
     public class ReturningException : System.Exception
     {
