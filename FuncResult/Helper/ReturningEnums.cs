@@ -1,8 +1,8 @@
-﻿namespace FuncResult
+﻿namespace FuncResult.Helper
 {
     public static class ReturningEnums
     {
-        public enum LogLevel : int
+        public enum LogLevel
         {
             Trace = 0,
             Debug = 1,

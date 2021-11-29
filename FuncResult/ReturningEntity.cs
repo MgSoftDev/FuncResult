@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FuncResult.Exceptions;
+using FuncResult.Helper;
 using FuncResult.Logger;
 
 // ReSharper disable ExplicitCallerInfoArgument
@@ -45,17 +46,17 @@ namespace FuncResult
             return new ErrorInfo(errorMessage, tryException, errorCode, memberName, filePath, lineNumber);
         }
 
-        public new static Returning<T> Error(string                    errorMessage,      (string Key, string Value)[] keysValues,      Exception tryException = null, string errorCode = "",
+        public new static Returning<T> Error(string                    errorMessage,      (string Key, string Value)[] nameValues,      Exception tryException = null, string errorCode = "",
                                              [CallerMemberName] string memberName = null, [CallerFilePath] string      filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
-            return new ErrorInfo(errorMessage, keysValues, tryException, errorCode, memberName, filePath, lineNumber);
+            return new ErrorInfo(errorMessage, nameValues, tryException, errorCode, memberName, filePath, lineNumber);
         }
 
 
         public new static Returning<T> Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,
-                                                  string errorCode = null, params object[] stringsArgs)
+                                                  string errorCode = null, params (string Key, string Value)[] nameValues)
         {
-            return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, stringsArgs);
+            return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, nameValues);
         }
 
 

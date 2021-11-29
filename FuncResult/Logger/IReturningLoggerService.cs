@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using FuncResult.Helper;
 
 namespace FuncResult.Logger
 {

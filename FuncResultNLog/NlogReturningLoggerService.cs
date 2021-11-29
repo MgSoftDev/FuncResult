@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using FuncResult;
+using FuncResult.Helper;
 using FuncResult.Logger;
 using NLog;
 using NLog.LayoutRenderers;
@@ -10,19 +11,18 @@ namespace FuncResultNLog
 {
     public  class NlogReturningLoggerService : IReturningLoggerService
     {
-        public readonly NlogConfig NlogConfig;
+        public readonly NlogConfig _NlogConfig;
 
-        public NlogReturningLoggerService( string filePath, bool enableConsoleresult = false )
+        public NlogReturningLoggerService( string filePath, bool enableConsoleResult = false )
         {
-            NlogConfig = new NlogConfig( filePath , enableConsoleresult);
+            _NlogConfig = new NlogConfig( filePath , enableConsoleResult);
 
-            NlogConfig.AddStackTrace()
+            _NlogConfig.AddStackTrace()
                     .AddCallSiteLine( 1 )
                     .AddCallSite(
                             new CallSiteLayoutRenderer() { ClassName = true, CleanNamesOfAnonymousDelegates = true, FileName = true, IncludeSourcePath = true, MethodName = true, SkipFrames = 0 } )
                     ;
         }
-
 
         public bool SaveLog( Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null )
         {
@@ -45,6 +45,13 @@ namespace FuncResultNLog
                     logger.Log( theEvent );
                 } );
 
+                returning.UnfinishedItems.ForEach(e =>
+                {
+                    var theEvent = new LogEventInfo(level, logName, null, e.Title + "  " + e.Mensaje, null, null);
+                    theEvent.Properties["AssemblyName"] = logName;
+                    logger.Log(theEvent);
+                });
+
             }
             catch( Exception ex )
             {
@@ -56,70 +63,12 @@ namespace FuncResultNLog
             return true;
         }
 
-        public  bool SaveLog( ErrorInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+
+        public Task<bool> SaveLogAsync(Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
         {
-            try
-            {
-
-                logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-                logName = logName?.Replace( '.', ' ' );
-
-                var level = LogLevel.FromOrdinal( (int) logLevel );
-                
-                var logger = LogManager.GetLogger( "Returning" );
-
-                var theEvent = new LogEventInfo( level, logName, null, error.ErrorMessage, null, error.TryException );
-                theEvent.Properties["AssemblyName"] = logName;
-                theEvent.Properties["MemberName"] = error.MemberName;
-                theEvent.Properties["FilePath"]   = error.FilePath;
-                theEvent.Properties["LineNumber"] = error.LineNumber;
-                logger.Log( theEvent );
-            }
-            catch( Exception ex )
-            {
-                return false;
-            }
-
-            return true;
+            return Task.Run(() => SaveLog(returning, logLevel, logName));
         }
-
-        public Task<bool> SaveLogAsync( Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null )
-        {
-            return Task.Run( ( )=>SaveLog( returning, logLevel, logName ) );
-        }
-
-        public Task<bool> SaveLogAsync( ErrorInfo error, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null )
-        {
-            return Task.Run(() => SaveLog(error, logLevel, logName));
-        }
-
-        public bool SaveLog(UnfinishedInfo unfinished,  string logName = null)
-        {
-            try
-            {
-
-                logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-                logName = logName?.Replace('.', ' ');
-
-                var level = LogLevel.FromOrdinal((int)unfinished.Type);
-
-                var logger = LogManager.GetLogger("Returning");
-
-                var theEvent = new LogEventInfo(level, logName, null, unfinished.Title + "  "+ unfinished.Mensaje, null, null);
-                theEvent.Properties["AssemblyName"] = logName;
-                logger.Log(theEvent);
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public Task<bool> SaveLogAsync(UnfinishedInfo unfinished,  string logName = null)
-        {
-            return Task.Run(() => SaveLog(unfinished,  logName));
-        }
+        
+        
     }
 }

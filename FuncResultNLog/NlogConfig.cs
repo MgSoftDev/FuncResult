@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NLog;
 using NLog.Config;
 using NLog.LayoutRenderers;

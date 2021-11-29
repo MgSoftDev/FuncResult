@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FuncResult
+namespace FuncResult.Helper
 {
     public static class Extension
     {
