@@ -1,8 +1,4 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
-using FuncResult.Helper;
-
-namespace FuncResult.Logger
+﻿namespace MgSoftDev.FuncResult.Logger
 {
     public static class ReturningLogger
     {

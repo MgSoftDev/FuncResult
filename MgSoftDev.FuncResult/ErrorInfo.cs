@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using FuncResult.Exceptions;
+using MgSoftDev.FuncResult.Exceptions;
 
-namespace FuncResult
+namespace MgSoftDev.FuncResult
 {
     public class ErrorInfo
     {

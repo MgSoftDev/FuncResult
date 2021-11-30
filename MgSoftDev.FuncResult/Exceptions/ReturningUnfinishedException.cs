@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace FuncResult.Exceptions
+namespace MgSoftDev.FuncResult.Exceptions
 {
     public class ReturningUnfinishedException : System.Exception
     {

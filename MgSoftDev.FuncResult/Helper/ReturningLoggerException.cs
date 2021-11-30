@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
-using FuncResult.Logger;
+using MgSoftDev.FuncResult.Logger;
 
-namespace FuncResult.Helper
+namespace MgSoftDev.FuncResult.Helper
 {
     public static class ReturningLoggerException
     {

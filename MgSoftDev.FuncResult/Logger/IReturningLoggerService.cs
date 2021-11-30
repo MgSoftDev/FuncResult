@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FuncResult.Helper;
+using MgSoftDev.FuncResult.Helper;
 
-namespace FuncResult.Logger
+namespace MgSoftDev.FuncResult.Logger
 {
     public interface IReturningLoggerService
     {

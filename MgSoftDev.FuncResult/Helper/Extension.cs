@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FuncResult.Helper
+namespace MgSoftDev.FuncResult.Helper
 {
     public static class Extension
     {

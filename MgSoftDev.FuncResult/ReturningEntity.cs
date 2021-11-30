@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using FuncResult.Exceptions;
-using FuncResult.Helper;
-using FuncResult.Logger;
+using MgSoftDev.FuncResult.Exceptions;
+using MgSoftDev.FuncResult.Helper;
 
 // ReSharper disable ExplicitCallerInfoArgument
 
-namespace FuncResult
+namespace MgSoftDev.FuncResult
 {
     public class Returning< T > : Returning, IDisposable
     {

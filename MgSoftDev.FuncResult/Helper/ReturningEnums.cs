@@ -1,4 +1,4 @@
-﻿namespace FuncResult.Helper
+﻿namespace MgSoftDev.FuncResult.Helper
 {
     public static class ReturningEnums
     {

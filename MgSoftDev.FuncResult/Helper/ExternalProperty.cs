@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 
-namespace FuncResult.Helper
+namespace MgSoftDev.FuncResult.Helper
 {
     public class ExternalProperty : DynamicObject
     {

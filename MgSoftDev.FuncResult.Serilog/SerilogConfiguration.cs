@@ -1,8 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using FuncResult.Logger;
-using Serilog;
-
-namespace FuncResult.Serilog
+﻿namespace MgSoftDev.FuncResult.Serilog
 {
     //public static  class SerilogConfiguration
     //{

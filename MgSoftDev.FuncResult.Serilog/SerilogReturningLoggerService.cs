@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using FuncResult;
 using FuncResult.Helper;
 using FuncResult.Logger;
 using Serilog;
 using Serilog.Events;
 
-namespace FuncResult.Serilog
+namespace MgSoftDev.FuncResult.Serilog
 {
 
 	public class SerilogReturningLoggerService : IReturningLoggerService
