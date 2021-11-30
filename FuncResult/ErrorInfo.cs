@@ -15,7 +15,7 @@ namespace FuncResult
         public string                       FilePath     { get; set; }
         public int                          LineNumber   { get; set; }
         public Exception                    TryException { get; set; }
-        public (string Name, object Value)[] NameValues   { get; set; } 
+        public object Parameters   { get; set; } 
 
         public ErrorInfo()
         {
@@ -31,14 +31,14 @@ namespace FuncResult
             LineNumber   = lineNumber;
             ErrorCode    = errorCode;
         }
-        public ErrorInfo(string errorMessage, (string Key, object Value)[] nameValues,  Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
+        public ErrorInfo(string errorMessage, object parameters,  Exception tryException = null, string errorCode = "", [CallerMemberName] string memberName = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int lineNumber = 0)
         {
             ErrorMessage = errorMessage;
             TryException = tryException;
             MemberName   = memberName;
             FilePath     = filePath;
             LineNumber   = lineNumber;
-            NameValues   = nameValues;
+            Parameters   = parameters;
             ErrorCode    = errorCode;
         }
 

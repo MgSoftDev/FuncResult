@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuncResult", "FuncResult\FuncResult.csproj", "{3968BAFB-D4F3-4EDD-A9C2-843E052C1687}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuncResultNLog", "FuncResultNLog\FuncResultNLog.csproj", "{66B47FF7-4472-4A35-A02B-E464E563A2B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuncResult.Serilog", "FuncResult.Serilog\FuncResult.Serilog.csproj", "{BFE08211-444B-41D1-AF16-F5A236748B0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{3968BAFB-D4F3-4EDD-A9C2-843E052C1687}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3968BAFB-D4F3-4EDD-A9C2-843E052C1687}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3968BAFB-D4F3-4EDD-A9C2-843E052C1687}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66B47FF7-4472-4A35-A02B-E464E563A2B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66B47FF7-4472-4A35-A02B-E464E563A2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66B47FF7-4472-4A35-A02B-E464E563A2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66B47FF7-4472-4A35-A02B-E464E563A2B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFE08211-444B-41D1-AF16-F5A236748B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE08211-444B-41D1-AF16-F5A236748B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE08211-444B-41D1-AF16-F5A236748B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE08211-444B-41D1-AF16-F5A236748B0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
