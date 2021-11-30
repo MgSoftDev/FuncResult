@@ -4,7 +4,13 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Description>Library for the handling of the value returned in methods, helps to speed up the returned result of a method, containing its result, errors or messages to the user.</Description>
     <Authors>Miguel Fernando Garcias Salazar</Authors>
-    <Copyright>Miguel Fernando Garcias Salazar</Copyright>
+    <Copyright>MgSoftDev</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MigeruGarcia/FuncResult</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MigeruGarcia/FuncResult</RepositoryUrl>
+    <AssemblyName>MgSoftDev.FuncResult</AssemblyName>
+    <Company>MgSoftDev</Company>
+    <RootNamespace>MgSoftDev.FuncResult</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
