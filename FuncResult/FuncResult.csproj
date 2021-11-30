@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <Description>Library for the handling of the value returned in methods, helps to speed up the returned result of a method, containing its result, errors or messages to the user.</Description>
+    <Authors>Miguel Fernando Garcias Salazar</Authors>
+    <Copyright>Miguel Fernando Garcias Salazar</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
