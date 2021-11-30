@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using FuncResult;
-using FuncResult.Helper;
-using FuncResult.Logger;
+using MgSoftDev.FuncResult.Helper;
+using MgSoftDev.FuncResult.Logger;
 using Serilog;
 using Serilog.Events;
 
