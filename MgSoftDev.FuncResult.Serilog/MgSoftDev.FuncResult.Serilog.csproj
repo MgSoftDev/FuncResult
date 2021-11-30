@@ -4,6 +4,13 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>MgSoftDev.FuncResult.Serilog</AssemblyName>
     <RootNamespace>MgSoftDev.FuncResult.Serilog</RootNamespace>
+    <Authors>Miguel Fernando Garcias Salazar</Authors>
+    <Company>MgSoftDev</Company>
+    <Copyright>MgSoftDev</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MigeruGarcia/FuncResult</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MigeruGarcia/FuncResult</RepositoryUrl>
+    <PackageTags>Returning</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

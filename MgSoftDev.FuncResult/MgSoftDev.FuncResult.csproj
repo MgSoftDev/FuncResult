@@ -11,6 +11,7 @@
     <AssemblyName>MgSoftDev.FuncResult</AssemblyName>
     <Company>MgSoftDev</Company>
     <RootNamespace>MgSoftDev.FuncResult</RootNamespace>
+    <PackageTags>Returning</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
