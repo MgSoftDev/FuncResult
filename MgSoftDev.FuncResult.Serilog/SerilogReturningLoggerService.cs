@@ -10,16 +10,17 @@ namespace MgSoftDev.FuncResult.Serilog
 {
 
 	public class SerilogReturningLoggerService : IReturningLoggerService
-	{
+    {
+        public object EventSource { get; set; } = new {Environment.MachineName };
 		#region Implementation of IReturningLoggerService
 
-		public bool SaveLog(Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+		public bool SaveLog(Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, object eventSource = null, string logName = null)
 		{
 			try
 			{
-				logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-				logName = logName?.Replace('.', ' ');
-
+				logName     = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+				logName     = logName?.Replace('.', ' ');
+                eventSource = eventSource ?? EventSource;
 				returning.Errors.ForEach(e =>
 				{
 					var param = new
@@ -27,6 +28,7 @@ namespace MgSoftDev.FuncResult.Serilog
 
 						Date = DateTime.Now,
 						LogLevel = logLevel,
+						EventSource = eventSource,
 						LogName = logName,
                         e.ErrorMessage,
                         e.Parameters,
@@ -48,23 +50,24 @@ namespace MgSoftDev.FuncResult.Serilog
 			}
 		}
 
-		public Task<bool> SaveLogAsync(Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+		public Task<bool> SaveLogAsync(Returning returning, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, object eventSource = null, string logName = null)
 		{
-			return Task.Run(() => SaveLog(returning, logLevel, logName));
+			return Task.Run(() => SaveLog(returning, logLevel,eventSource, logName));
 		}
 
-		public bool SaveLog(UnfinishedInfo unfinished, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+		public bool SaveLog(UnfinishedInfo unfinished, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, object eventSource = null, string logName = null)
 		{
 			try
 			{
-				logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-				logName = logName?.Replace('.', ' ');
-
+				logName     = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+				logName     = logName?.Replace('.', ' ');
+                eventSource = eventSource ?? EventSource;
 				var param = new
 				{
-					Date = DateTime.Now,
-					LogLevel = logLevel,
-					LogName = logName,
+					Date        = DateTime.Now,
+					LogLevel    = logLevel,
+                    EventSource = eventSource,
+					LogName     = logName,
                     unfinished.Title,
                     unfinished.Mensaje,
                     unfinished.UseLocalization,
@@ -84,32 +87,33 @@ namespace MgSoftDev.FuncResult.Serilog
 			return true;
 		}
 
-		public Task<bool> SaveLogAsync(UnfinishedInfo unfinished, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, string logName = null)
+		public Task<bool> SaveLogAsync(UnfinishedInfo unfinished, ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error, object eventSource = null, string logName = null)
 		{
-			return Task.Run(() => SaveLog(unfinished, logLevel, logName));
+			return Task.Run(() => SaveLog(unfinished, logLevel,eventSource, logName));
 		}
 
 		public bool SaveLog(string errorMessage, object parameters, Exception tryException = null, string errorCode = "", ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error,
-							string logName = null, string memberName = null, string filePath = null, int lineNumber = 0)
+                            object eventSource = null, string logName = null, string memberName = null, string filePath = null, int lineNumber = 0)
 		{
 			try
 			{
-				logName = logName ?? Assembly.GetCallingAssembly().GetName().Name;
-				logName = logName?.Replace('.', ' ');
-
+				logName     = logName ?? Assembly.GetCallingAssembly().GetName().Name;
+				logName     = logName?.Replace('.', ' ');
+                eventSource = eventSource ?? EventSource;
 				var param = new
 				{
 
-					Date = DateTime.Now,
-					LogLevel = logLevel,
-					LogName = logName,
+					Date         = DateTime.Now,
+					LogLevel     = logLevel,
+                    EventSource  = eventSource,
+					LogName      = logName,
 					ErrorMessage = errorMessage,
-					Parameters = parameters,
-					ErrorCode = errorCode,
+					Parameters   = parameters,
+					ErrorCode    = errorCode,
 					TryException = tryException,
-					MemberName = memberName,
-					FilePath = filePath,
-					LineNumber = lineNumber
+					MemberName   = memberName,
+					FilePath     = filePath,
+					LineNumber   = lineNumber
 				};
 				Log.Write(ConvertToLogEventLevel(logLevel), "<Schema>{0}</Schema> <LogData>{@param}</LogData>", "ErrorInfo", param);
 
@@ -126,9 +130,9 @@ namespace MgSoftDev.FuncResult.Serilog
 		}
 
 		public Task<bool> SaveLogAsync(string errorMessage, object parameters, Exception tryException = null, string errorCode = "", ReturningEnums.LogLevel logLevel = ReturningEnums.LogLevel.Error,
-									   string logName = null, string memberName = null, string filePath = null, int lineNumber = 0)
+                                       object eventSource = null, string logName = null, string memberName = null, string filePath = null, int lineNumber = 0)
 		{
-			return Task.Run(() => SaveLog(errorMessage, parameters, tryException, errorCode, logLevel, logName, memberName, filePath, lineNumber));
+			return Task.Run(() => SaveLog(errorMessage, parameters, tryException, errorCode, logLevel, eventSource,  logName, memberName, filePath, lineNumber));
 		}
 
 

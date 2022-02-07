@@ -11,10 +11,11 @@
     <PackageProjectUrl>https://github.com/MigeruGarcia/FuncResult</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MigeruGarcia/FuncResult</RepositoryUrl>
     <PackageTags>Returning</PackageTags>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MgSoftDev.FuncResult" Version="1.0.0" />
+    <PackageReference Include="MgSoftDev.FuncResult" Version="1.1.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
 
