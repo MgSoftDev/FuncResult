@@ -99,12 +99,12 @@ namespace MgSoftDev.FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, null,logName) : new Returning<T>(e.Result);
                 }
                 catch ( Exception e )
                 {
                     var error = new Returning<T>(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error,null, logName);
 
                     return error;
                 }
@@ -128,12 +128,12 @@ namespace MgSoftDev.FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error,null, logName) : new Returning<T>(e.Result);
                 }
                 catch ( Exception e )
                 {
                     var error = new Returning<T>(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error,null, logName);
 
                     return error;
                 }
@@ -177,12 +177,12 @@ namespace MgSoftDev.FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error,null, logName) : new Returning<T>(e.Result);
                 }
                 catch ( Exception e )
                 {
                     var error = new Returning<T>(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error,null, logName);
 
                     return error;
                 }
@@ -204,12 +204,12 @@ namespace MgSoftDev.FuncResult
                 }
                 catch ( ReturningException e )
                 {
-                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error, logName) : new Returning<T>(e.Result);
+                    return saveLog ? new Returning<T>(e.Result).SaveLog(ReturningEnums.LogLevel.Error,null, logName) : new Returning<T>(e.Result);
                 }
                 catch ( Exception e )
                 {
                     var error = new Returning<T>(new ErrorInfo(errorName, e, errorCode, memberName, filePath, lineNumber));
-                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error, logName);
+                    if( saveLog ) error.SaveLog(ReturningEnums.LogLevel.Error,null, logName);
 
                     return error;
                 }
