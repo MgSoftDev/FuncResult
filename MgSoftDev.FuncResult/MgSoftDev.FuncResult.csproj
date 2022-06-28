@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net45</TargetFrameworks>
     <Description>Library for the handling of the value returned in methods, helps to speed up the returned result of a method, containing its result, errors or messages to the user.</Description>
     <Authors>Miguel Fernando Garcias Salazar</Authors>
     <Copyright>MgSoftDev</Copyright>
@@ -12,7 +12,7 @@
     <Company>MgSoftDev</Company>
     <RootNamespace>MgSoftDev.FuncResult</RootNamespace>
     <PackageTags>Returning</PackageTags>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
