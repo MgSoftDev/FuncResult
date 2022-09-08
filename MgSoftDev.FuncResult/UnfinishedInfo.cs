@@ -12,11 +12,13 @@ namespace MgSoftDev.FuncResult
             Error       = 4
         }
 
-        public string ErrorCode       { get; set; }
-        public string Title           { get; set; }
-        public string Mensaje         { get; set; }
-        public bool   UseLocalization { get; set; }
-        public object Parameters      { get; set; }
+        public string   ErrorCode         { get; set; }
+        public string   Title             { get; set; }
+        public string   Mensaje           { get; set; }
+        public bool     UseLocalization   { get; set; }
+        public object   Parameters        { get; set; }
+        public object[] TitleFormatArgs   { get; set; }
+        public object[] MensajeFormatArgs { get; set; }
 
         public NotifyType Type { get; set; }
         public UnfinishedInfo() { }

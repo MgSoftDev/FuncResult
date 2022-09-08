@@ -72,6 +72,8 @@ namespace MgSoftDev.FuncResult.Serilog
                     unfinished.Mensaje,
                     unfinished.UseLocalization,
                     unfinished.Parameters,
+					unfinished.TitleFormatArgs,
+					unfinished.MensajeFormatArgs,
 					NotifyType = unfinished.Type
 
 				};
