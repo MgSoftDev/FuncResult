@@ -62,11 +62,11 @@ namespace MgSoftDev.FuncResult
             return new UnfinishedInfo(title, notifyType, errorCode);
         }
 
-        public new static Returning<T> FromLocalization(string titleKey, string mensajeKey, object[] titleFormatArgs = null, object[] mensajeFormatArgs = null,
-                                                        NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+        public new static Returning<T> UnfinishedLocalization(string titleKey, string mensajeKey, object[] titleFormatArgs = null, object[] mensajeFormatArgs = null,
+                                                              NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
             UnfinishedInfo.FromLocalization(titleKey, mensajeKey, titleFormatArgs, mensajeFormatArgs, notifyType, errorCode);
 
-        public new static Returning<T> FromLocalization(string titleKey, object[] titleFormatArgs = null, NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+        public new static Returning<T> UnfinishedLocalization(string titleKey, object[] titleFormatArgs = null, NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
             UnfinishedInfo.FromLocalization(titleKey, titleFormatArgs, notifyType, errorCode);
 
 
