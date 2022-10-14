@@ -12,7 +12,7 @@
     <Company>MgSoftDev</Company>
     <RootNamespace>MgSoftDev.FuncResult</RootNamespace>
     <PackageTags>Returning</PackageTags>
-    <Version>1.5.0</Version>
+    <Version>1.7.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MgSoftDev.FuncResult.Exceptions;
 using MgSoftDev.FuncResult.Helper;
+using static MgSoftDev.FuncResult.UnfinishedInfo;
 
 // ReSharper disable MethodHasAsyncOverload
 // ReSharper disable ExplicitCallerInfoArgument
@@ -265,15 +266,26 @@ namespace MgSoftDev.FuncResult
         }
 
 
-        public static Returning Unfinished(string title,            string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,
-                                           string errorCode = null,  object parameters = null)
+        public static Returning Unfinished(string title, string mensaje, NotifyType notifyType = NotifyType.Information, string errorCode = null)
         {
-            return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, parameters);
+            return new UnfinishedInfo(title, mensaje, notifyType,  errorCode);
         }
+        public static Returning Unfinished(string title, NotifyType notifyType = NotifyType.Information, string errorCode = null)
+        {
+            return new UnfinishedInfo(title, notifyType,  errorCode);
+        }
+
+        public static Returning FromLocalization(string titleKey, string mensajeKey, object[] titleFormatArgs = null, object[] mensajeFormatArgs = null,
+                                                 NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+            UnfinishedInfo.FromLocalization(titleKey,mensajeKey, titleFormatArgs, mensajeFormatArgs, notifyType, errorCode);
+
+ public static Returning FromLocalization(string titleKey, object[] titleFormatArgs = null, NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+            UnfinishedInfo.FromLocalization(titleKey, titleFormatArgs, notifyType, errorCode);
+
 
         #endregion
 
-        #region Operators Overloading
+            #region Operators Overloading
 
         public static implicit operator Returning(ErrorInfo                    value)=>new Returning(value);
         public static implicit operator Returning(UnfinishedInfo               value)=>new Returning(value);

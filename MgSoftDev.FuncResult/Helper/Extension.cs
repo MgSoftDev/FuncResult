@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace MgSoftDev.FuncResult.Helper
 {
@@ -30,6 +31,19 @@ namespace MgSoftDev.FuncResult.Helper
             }
         }
 
+        public static Returning Optimize(this Returning value)
+        {
+            if (value.Errors.Any())
+                value.Errors.ForEach(f => f.TryException = new Exception(f.TryException?.Message));
 
+            return value;
+        }
+        public static Returning<T> Optimize<T>(this Returning<T> value)
+        {
+            if (value.Errors.Any())
+                value.Errors.ForEach(f => f.TryException = new Exception(f.TryException?.Message));
+
+            return value;
+        }
     }
 }

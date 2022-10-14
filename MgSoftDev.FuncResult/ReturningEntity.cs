@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MgSoftDev.FuncResult.Exceptions;
 using MgSoftDev.FuncResult.Helper;
+using static MgSoftDev.FuncResult.UnfinishedInfo;
 
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -52,11 +53,21 @@ namespace MgSoftDev.FuncResult
         }
 
 
-        public new static Returning<T> Unfinished(string title, string mensaje = null, UnfinishedInfo.NotifyType notifyType = UnfinishedInfo.NotifyType.Information, bool useLocalization = false,
-                                                  string errorCode = null,  object parameters = null)
+        public new static Returning<T> Unfinished(string title, string mensaje, NotifyType notifyType = NotifyType.Information, string errorCode = null)
         {
-            return new UnfinishedInfo(title, mensaje, notifyType, useLocalization, errorCode, parameters);
+            return new UnfinishedInfo(title, mensaje, notifyType, errorCode);
         }
+        public new static Returning<T> Unfinished(string title, NotifyType notifyType = NotifyType.Information, string errorCode = null)
+        {
+            return new UnfinishedInfo(title, notifyType, errorCode);
+        }
+
+        public new static Returning<T> FromLocalization(string titleKey, string mensajeKey, object[] titleFormatArgs = null, object[] mensajeFormatArgs = null,
+                                                        NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+            UnfinishedInfo.FromLocalization(titleKey, mensajeKey, titleFormatArgs, mensajeFormatArgs, notifyType, errorCode);
+
+        public new static Returning<T> FromLocalization(string titleKey, object[] titleFormatArgs = null, NotifyType notifyType = NotifyType.Information, string errorCode = null)=>
+            UnfinishedInfo.FromLocalization(titleKey, titleFormatArgs, notifyType, errorCode);
 
 
         public static Returning<T> Try(Func<T> methodFunc, string errorName = "Unhandled error", string errorCode = ErrorInfo.UnhandledError, [CallerMemberName] string memberName = null,
