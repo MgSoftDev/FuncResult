@@ -205,7 +205,11 @@ namespace MgSoftDev.FuncResult
             {
                 try
                 {
-                   return await methodAction.Invoke();
+                    var res = await methodAction.Invoke();
+                    if(saveLog)
+                        res.SaveLog();
+
+                    return res;
                 }
                 catch ( ReturningUnfinishedException e )
                 {
@@ -232,7 +236,11 @@ namespace MgSoftDev.FuncResult
             {
                 try
                 {
-                    return methodAction.Invoke();
+                    var res= methodAction.Invoke();
+                    if(saveLog)
+                        res.SaveLog();
+
+                    return res;
                 }
                 catch ( ReturningUnfinishedException e )
                 {

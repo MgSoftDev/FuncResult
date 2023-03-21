@@ -180,7 +180,11 @@ namespace MgSoftDev.FuncResult
             {
                 try
                 {
-                    return await methodFunc.Invoke();
+                    var res = await methodFunc.Invoke();
+                    if(saveLog)
+                        res.SaveLog();
+
+                    return res;
                 }
                 catch ( ReturningUnfinishedException e )
                 {
@@ -206,8 +210,12 @@ namespace MgSoftDev.FuncResult
             return Task.Run(()=>
             {
                 try
-                {
-                    return methodFunc.Invoke();
+                { 
+                    var res =  methodFunc.Invoke();
+                    if(saveLog)
+                        res.SaveLog();
+
+                    return res;
                 }
                 catch ( ReturningUnfinishedException e )
                 {
